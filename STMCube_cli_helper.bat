@@ -4,7 +4,7 @@ REM Define the directory of your CubeIDE workspace
 set workspace=%USERPROFILE%\STM32CubeIDE\workspace_1.18.0
 
 REM Define the name of your project
-set project=LineFollower_Braia_Code
+set project=LF_STM32
 
 REM Define the base directory of the CubeIDE installation
 set "basedir="

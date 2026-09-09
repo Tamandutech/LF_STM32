@@ -8,7 +8,7 @@
             "servertype": "stlink",
             "serverpath": "C:/ST/STM32CubeCLT_1.18.0/STLink-gdb-server/bin/ST-LINK_gdbserver.exe",
             "cwd": "${workspaceFolder}",
-            "executable": "${workspaceFolder}/Debug/LineFollower_Braia_Code.elf",
+            "executable": "${workspaceFolder}/Debug/LF_STM32.elf",
             "device": "STM32G474RCT6",
             "interface": "swd",
             "runToEntryPoint": "main",

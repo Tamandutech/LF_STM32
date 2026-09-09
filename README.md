@@ -36,11 +36,11 @@ Para desenvolvimento através do Visual Studio Code:
 1. Clone o repositório:
    - Para clonar **apenas a branch de desenvolvimento do STM32**, use:
      ```bash
-     git clone --branch develop-stm32 --single-branch https://github.com/Tamandutech/LineFollower_Braia_Code.git
+     git clone --branch develop-stm32 --single-branch https://github.com/Tamandutech/LF_STM32.git
      ```
    - Para clonar o **repositório completo**, use:
      ```bash
-     git clone --branch develop-stm32 https://github.com/Tamandutech/LineFollower_Braia_Code.git
+     git clone --branch develop-stm32 https://github.com/Tamandutech/LF_STM32.git
      ```
 
 2. Abra o STM32CubeIDE
