@@ -1,5 +1,5 @@
 /*
- * GobalData.cpp
+ * GlobalData.cpp
  *
  *  Created on: Nov 15, 2025
  *      Author: Kelvin Novais

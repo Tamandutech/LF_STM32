@@ -9,7 +9,6 @@
         "*.svelte": "svelte",
         "*.html": "html",
         ".clang-tidy": "yaml",
-
         // C specific
         "string.h": "c",
         "math.h": "c",
@@ -25,7 +24,6 @@
         "inttypes.h": "c",
         "ble_svc_gap.h": "c",
         "freertos.h": "c",
-        
         // C++ specific
         "cstdint": "cpp",
         "array": "cpp",
@@ -95,19 +93,17 @@
         "thread": "cpp",
         "iostream": "cpp"
     },
-
     // Editor
     "editor.tabSize": 2,
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true,
-
     // Cortex Debug
     // TODO add documentaion and tell user to change these paths
     "cortex-debug.gdbPath": "/opt/st/stm32cubeide_1.19.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.linux64_1.0.0.202410170706/tools/bin/arm-none-eabi-gdb",
     "cortex-debug.JLinkGDBServerPath": "/opt/st/stm32cubeide_1.19.0/plugins/com.st.stm32cube.ide.mcu.externaltools.jlink.linux64_2.5.0.202506031126/tools/bin/JLinkGDBServerr",
-
     // Clang
     "clangd.arguments": [
-        "--query-driver=/opt/st/stm32cubeide_2.2.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.linux64_1.0.100.202602081740/tools/bin/arm-none-eabi-g++"
+        "--query-driver=/opt/st/stm32cubeide_2.2.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.linux64_1.0.100.202602081740/tools/bin/arm-none-eabi-g++",
+        "--compile-commands-dir=${workspaceFolder}/build/Debug"
     ]
 }

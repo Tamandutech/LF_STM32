@@ -215,7 +215,7 @@ static void menu() {
     }
   }
 
-  for(int i = 0; i < globalData.map.size() - 1; i++) {
+  for(unsigned int i = 0; i < globalData.map.size() - 1; i++) {
     globalData.map[i].baseMotorPWM += changeSpeed;
     globalData.map[i].baseVacuumPWM += changeVacuum;
   }

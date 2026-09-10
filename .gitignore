@@ -9,14 +9,19 @@
 # Do not update header with BLE Pin
 **/BLEPin.h
 
+# IDE
 .idea
 
+# Cache for Cland
 .cache
+
 .metadata
 
 # This file has paths specific to the developer's filesystem,
 # not relative to the project
 compile_commands.json
 
+# Compilation objects
 Release
 Debug
+build
