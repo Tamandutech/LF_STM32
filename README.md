@@ -1,9 +1,146 @@
-# 🤖 Seguidor de Linha - Braia
+# Line Follower - STM32
 
-![Versão](https://img.shields.io/badge/versão-0.0-blue)
-![Linguagem](https://img.shields.io/badge/STM32-C/C++-brightgreen)
+## Getting started
+### Linux
+1. Install the dependencies
+```bash
+# On Fedora
+sudo dnf install cmake clangd arm-none-eabi-gcc arm-none-eabi-g++ openocd gdb
+```
 
-## Alterações Necessárias Celeris Core v1
+```bash
+# On Debian (and derivatives, like Ubuntu, Mint, PopOS, etc.)
+sudo apt-get install cmake clangd gcc-arm-none-eabi openocd gdb
+```
+
+<details>
+<summary>What are these packages?</summary>
+
+  | Package | Purpose |
+  |---|---|
+  | `cmake` | Configures/manages the project build process. |
+  | `clangd` | Provides code completion, navigation, and error checking for C/C++. |
+  | `gcc-arm-none-eabi` or `arm-none-eabi-gcc`, `arm-none-eabi-g++` | Cross-compiler for building C/C++ programs for ARM microcontrollers (which is the case of our STM32 chip). |
+  | `openocd` | Connects to, programs, and debugs microcontrollers through a debug probe. |
+  | `gdb` | Debugger used to inspect and control a running program. |
+
+</details>
+
+2. Clone this repository
+```bash
+git clone https://github.com/Tamandutech/LF_STM32.git
+```
+
+### Windows
+For Windows users, we recommend dual-booting to facilitate and speed up project execution, or using the Windows Subsystem for Linux.
+
+1. On WSL, create a Debian instance and install the required tools:
+```bash
+sudo apt-get install cmake clangd gcc-arm-none-eabi gdb
+```
+
+2. Install `openocd` on Windows itself.
+
+3.  Clone this repository
+```bash
+git clone https://github.com/Tamandutech/LF_STM32.git
+```
+
+## Important configurations
+The project was designed to recognize the tools installed on your Linux system, and work without additional configurations. However, if you
+- are facing problems (linter/clangd doens't work well, debug problems, etc);
+- changing project settings;
+- running on a non Linux environment.
+
+Try checking the following configurations:
+
+| File | Configurations |
+|---|---|
+| `.vscode/settings.json` | `clangd.path` and `clangd.arguments` (where you inform the path of your compiler for clangd) |
+| `.vscode/launch.json` | All configurations for the debugger you use on VSCode |
+
+> [!NOTE]
+> If you change the microcontroller, you'll have to replace the `.svd` file. You can find it on the page of your microcontroller: [example](https://www.st.com/en/microcontrollers-microprocessors/stm32g474rc.html#cad-resources).
+
+<details>
+<summary><h2>Compile/flash from terminal</h2></summary>
+
+  Although these functionalities should be automatically configured on VSCodium, you may want to run on the CLI, or simply understand how the process is done:
+
+  ### For debugging
+  Cofigure the project (you have to run this once):
+  ```bash
+  cmake --preset Debug
+  ```
+
+  Compile:
+  ```bash
+  cmake --build build/Debug
+  ```
+
+  If you want to clean:
+  ```bash
+  cmake --build build/Debug --target clean
+  ```
+
+  Flash:
+  ```bash
+  cmake --build build/Debug --target flash
+  ```
+
+  ### For release
+  Cofigure the project (you have to run this once):
+  ```bash
+  cmake --preset Release
+  ```
+
+  Compile:
+  ```bash
+  cmake --build build/Release
+  ```
+
+  If you want to clean:
+  ```bash
+  cmake --build build/Release --target clean
+  ```
+
+  Flash:
+  ```bash
+  cmake --build build/Release --target flash
+  ```
+
+</details>
+
+
+<details>
+<summary><h2>Optional steps</h2></summary>
+
+### Install STM32CubeMX
+If you need to *reconfigure* or *regenerate* the code, you'll need to install [STM32CubeMX](https://www.st.com/en/development-tools/stm32cubemx.html).
+
+### Install STM32CubeIDE
+If you want to use STM32CubeIDE as your single IDE to edit, compile or flash code, instead of previous options, follow these steps:
+
+1. In STM32CubeIDE, go to File → STM32 Project Create/Import.
+2. Under Import STM32 Project, select STM32 CMake Project, then click Next.
+3. Enter a project name (`LF_STM32`) and select the source folder, then click Next.
+4. Choose the correct STM32 MCU (`STM32G474RCTx`) and click Finish.
+
+<!-- https://community.st.com/stm32cubeide-mcus-28/import-a-cmake-project-created-by-cubemx-into-cubeide-164539 -->
+
+</details>
+
+
+
+
+
+
+
+
+
+
+
+<!-- ## Alterações Necessárias Celeris Core v1
 
 - Circuito de proteção de corrente inversa com interruptor não funcionou, usar somente mosfet com interruptor e manter conectores xt para não ocorrer ligações invertidas
 
@@ -16,80 +153,4 @@
 - remover leds de pinos de programação, não tem necessidade de utilizar e podem eceder o limite de corrente do pino
 
 - corrigir pull up/down no pino de boot do stm32
-
-
-## 🔧 Requisitos
-
-### Obrigatórios
-- STM32CubeIDE 1.18.0 
-
-### Opcionais
-Para desenvolvimento através do Visual Studio Code: 
-- STM32CubeCLT 1.18.0 (necessário para fazer upload do firmware e depuração) 
-- Pacote de extensão C/C++ para Visual Studio Code (necessário para intellisense) 
-- Extensão Cortex-Debug para Visual Studio Code (necessário para depuração) 
-- STM32CubeMX 6.14.0 (recomendado para editar .ioc sem o STM32CubeIDE aberto) 
-
-## 🚀 Como Usar
-
-### Configuração com STM32CubeIDE
-1. Clone o repositório:
-   - Para clonar **apenas a branch de desenvolvimento do STM32**, use:
-     ```bash
-     git clone --branch develop-stm32 --single-branch https://github.com/Tamandutech/LF_STM32.git
-     ```
-   - Para clonar o **repositório completo**, use:
-     ```bash
-     git clone --branch develop-stm32 https://github.com/Tamandutech/LF_STM32.git
-     ```
-
-2. Abra o STM32CubeIDE
-
-3. Importe o projeto através de:
-   ```
-   File > Open Projects from File System
-   ```
-
-### Configuração com Visual Studio Code  
-*(Temporariamente apenas para Windows)*
-
-
-1. Siga os passos 1-3 da seção anterior "Configuração com STM32CubeIDE"  
-
-2. Abra o Visual Studio Code  
-
-3. **Compile e/ou faça o upload do firmware**  
-   No terminal do Visual Studio Code, execute um dos comandos abaixo:
-   - Para compilar o projeto:  
-     ```bash
-     .\STMCube_cli_helper.bat build
-     ```
-   - Para fazer o upload do firmware no dispositivo STM32:  
-     ```bash
-     .\STMCube_cli_helper.bat flash
-     ```
-   - Para compilar e fazer o upload do firmware em sequência:  
-     ```bash
-     .\STMCube_cli_helper.bat all
-     ```
-
-4. **Debug**  
-   Para iniciar o debug utilize o atalho "F5" ou clique no botão "Iniciar Depuração" na barra lateral esquerda do Visual Studio Code. 
-
-#### Observações
-O arquivo de lote `STMCube_cli_helper.bat` é um script que automatiza o processo de compilação e upload do firmware no dispositivo STM32. Ele utiliza o STM32CubeCLT e a STM32CubeIDE para realizar essas operações. 
-
-- Não é possível compilar o código quando o STM32CubeIDE estiver aberto, pois ele bloqueia o acesso ao workspace. 
-
-- Não existem restrições para a função de upload do firmware, ou seja, o STM32CubeIDE pode estar aberto ou fechado. 
-
-- Ao utilizar a função de debug pelo VSCode, por padrão o codigo não está sendo compilado para otimizar o tempo de execução. Então lembre sempre de compilar antes de Debugar, ou descomente a linha ` // "preLaunchTask": "Build",` no arquivo `.vscode\launch.json` para sempre compilar o codigo antes de iniciar a sessão de debug. 
-
-- É recomendado realizar a instalação padrão do STM32CubeCLT e STM32CubeIDE (e utilizar o workspace padrão) 
-
-Caso tenha instalado em locais diferentes, será necessário modificar:
-- O arquivo `STMCube_cli_helper.bat` para apontar para os caminhos corretos.
-- O arquivo `.vscode\c_cpp_properties.json` para ajustar as configurações.
-
-
-
+-->
