@@ -1,6 +1,7 @@
 {
-    "recommendations": [
-      "llvm-vs-code-extensions.vscode-clangd",
-      "marus25.cortex-debug"
-    ]
+  "recommendations": [
+    "llvm-vs-code-extensions.vscode-clangd",
+    "marus25.cortex-debug",
+    "actboy168.tasks"
+  ]
 }

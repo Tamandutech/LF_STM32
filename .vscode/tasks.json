@@ -2,19 +2,60 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build",
+            "label": "Clean",
+            "group": "build",
             "type": "shell",
-            "command": ".\\STMCube_cli_helper.bat build",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "presentation": {
-                "reveal": "always"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ]
+            "command": "cmake --build build/Debug --target clean ; cmake --build build/Release --target clean",
+            "options": {
+                "statusbar": {
+                    "color": "#ff8b8b",
+                    "label": "$(clear-all) Clean",
+                    "detail": "Clean project"
+                }
+            }
+        },
+        {
+            "label": "CompileDebug",
+            "group": "build",
+            "type": "shell",
+            "command": "cmake --preset Debug && cmake --build build/Debug",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "statusbar": {
+                    "hide": true,
+                    "color": "#8bdeff",
+                    "label": "$(gear) Compile",
+                    "detail": "Compile code"
+                }
+            }
+        },
+        {
+            "label": "CompileRelease",
+            "group": "build",
+            "type": "shell",
+            "command": "cmake --preset Release && cmake --build build/Release",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "statusbar": {
+                    "color": "#8bdeff",
+                    "label": "$(gear) Compile",
+                    "detail": "Compile code"
+                }
+            }
+        },
+        {
+            "label": "Flash",
+            "group": "build",
+            "type": "shell",
+            "command": "cmake --build build/Release --target flash",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "statusbar": {
+                    "color": "#8bff97",
+                    "label": "$(play) Flash",
+                    "detail": "Flash to STM32"
+                }
+            }
         }
     ]
 }

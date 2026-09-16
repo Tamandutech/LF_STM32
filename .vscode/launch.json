@@ -2,18 +2,42 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug STM32 (CubeCLT)",
-            "type": "cortex-debug",
+            "name": "Debug STM32 (OpenOCD)",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceFolder}/build/Debug/LF_STM32.elf",
             "request": "launch",
-            "servertype": "stlink",
-            "serverpath": "C:/ST/STM32CubeCLT_1.18.0/STLink-gdb-server/bin/ST-LINK_gdbserver.exe",
-            "cwd": "${workspaceFolder}",
-            "executable": "${workspaceFolder}/Debug/LF_STM32.elf",
-            "device": "STM32G474RCT6",
-            "interface": "swd",
-            "runToEntryPoint": "main",
-            // "preLaunchTask": "Build", // caso queria rodar o build antes de debugar descomentar essa linha
-            "svdFile": "C:/ST/STM32CubeCLT_1.18.0/STMicroelectronics_CMSIS_SVD/STM32G474.svd"
-        }
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "preLaunchTask": "CompileDebug",
+            "gdbPath": "gdb",
+            // Add the svd file [https://www.st.com/en/microcontrollers-microprocessors/stm32g474rc.html#cad-resources]
+            "svdFile": "${workspaceRoot}/STM32G474.svd",
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32g4x.cfg"
+            ],
+            "showDevDebugOutput": "none",
+        },
+
+        
+        /*
+         * The following cofiguration runs debug using the official
+         * ST-LINK_gdbserver from STM32CubeCLT
+         */
+        // {
+        //     "name": "Debug STM32 (STM32CubeCLT)",
+        //     "cwd": "${workspaceRoot}",
+        //     "executable": "${workspaceFolder}/build/Debug/LF_STM32.elf",
+        //     "request": "launch",
+        //     "type": "cortex-debug",
+        //     "servertype": "stlink",
+        //     "device": "STM32G474RCT6",
+        //     "interface": "swd",
+        //     "runToEntryPoint": "main",
+        //     "preLaunchTask": "CompileDebug",
+        //     // Set here the path of STM32CubeCLT important files
+        //     "serverpath": "/opt/st/stm32cubeclt_1.22.0/STLink-gdb-server/bin/ST-LINK_gdbserver",
+        //     "svdFile": "/opt/st/stm32cubeclt_1.22.0/STMicroelectronics_CMSIS_SVD/STM32G474.svd"
+        // }
     ]
 }
