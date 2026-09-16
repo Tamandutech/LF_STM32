@@ -1,3 +1,6 @@
-# This removes flags that are problematic for clang
 CompileFlags: 
+  # This removes flags that are problematic for clang
   Remove: [-fcyclomatic-complexity]
+  
+  # Se the directory where compile_commands.json is
+  CompilationDatabase: build/Release/ 

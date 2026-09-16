@@ -164,3 +164,29 @@ target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE
 
     $<$<COMPILE_LANGUAGE:CXX>:-fno-use-cxa-atexit>
 )
+
+# Add target for flash routine
+add_custom_target(flash
+    COMMAND echo "Flashing..."
+
+    # Notes:
+    # (I) openocd is the tool we use to flash the code to the board
+    #
+    # (II) $<TARGET_FILE:${CMAKE_PROJECT_NAME}> expands to
+    # "build/<preset>/<CMAKE_PROJECT_NAME.elf>"
+    #
+    # For example, if
+    #   CMAKE_PROJECT_NAME is LF_STM32
+    #   and the chosen preset is Release
+    #
+    #   the the result will be "build/Release/LF_STM32.elf"
+    COMMAND openocd 
+        -f interface/stlink.cfg 
+        -c "transport select hla_swd" 
+        -f target/stm32g4x.cfg 
+        -c "program $<TARGET_FILE:${CMAKE_PROJECT_NAME}> verify reset exit"
+
+    DEPENDS ${CMAKE_PROJECT_NAME}
+
+    USES_TERMINAL
+)
