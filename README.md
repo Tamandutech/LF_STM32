@@ -16,15 +16,31 @@ sudo apt-get install cmake clangd gcc-arm-none-eabi openocd gdb
 <details>
 <summary>What are these packages?</summary>
 
-  | Package | Purpose |
-  |---|---|
-  | `cmake` | Configures/manages the project build process. |
-  | `clangd` | Provides code completion, navigation, and error checking for C/C++. |
+  | Package                                                         | Purpose                                                                                                    |
+  | --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+  | `cmake`                                                         | Configures/manages the project build process.                                                              |
+  | `clangd`                                                        | Provides code completion, navigation, and error checking for C/C++.                                        |
   | `gcc-arm-none-eabi` or `arm-none-eabi-gcc`, `arm-none-eabi-g++` | Cross-compiler for building C/C++ programs for ARM microcontrollers (which is the case of our STM32 chip). |
-  | `openocd` | Connects to, programs, and debugs microcontrollers through a debug probe. |
-  | `gdb` | Debugger used to inspect and control a running program. |
+  | `openocd`                                                       | Connects to, programs, and debugs microcontrollers through a debug probe.                                  |
+  | `gdb`                                                           | Debugger used to inspect and control a running program.                                                    |
 
 </details>
+
+2. Clone this repository
+```bash
+git clone https://github.com/Tamandutech/LF_STM32.git
+```
+
+### macOS (Apple Silicon)
+1. Install the dependencies with Homebrew
+```bash
+brew install cmake ninja llvm openocd
+brew install --cask gcc-arm-embedded
+```
+
+Use the `gcc-arm-embedded` cask (not the `arm-none-eabi-gcc` formula). The cask is the full Arm GNU Toolchain, including `arm-none-eabi-gdb`. Do not install host `gdb`; it cannot debug the STM32.
+
+`ninja` is required because the CMake presets use the Ninja generator. `llvm` provides `clangd` (Homebrew does not ship a standalone `clangd` package).
 
 2. Clone this repository
 ```bash
@@ -47,17 +63,18 @@ git clone https://github.com/Tamandutech/LF_STM32.git
 ```
 
 ## Important configurations
-The project was designed to recognize the tools installed on your Linux system, and work without additional configurations. However, if you
+The project is set up to find the tools on Linux, Apple Silicon macOS (Homebrew under `/opt/homebrew`), and Windows via WSL, without extra configuration. However, if you
 - are facing problems (linter/clangd doens't work well, debug problems, etc);
 - changing project settings;
-- running on a non Linux environment.
+- running on a different environment (for example Intel Homebrew under `/usr/local`).
 
 Try checking the following configurations:
 
-| File | Configurations |
-|---|---|
-| `.vscode/settings.json` | `clangd.path` and `clangd.arguments` (where you inform the path of your compiler for clangd) |
-| `.vscode/launch.json` | All configurations for the debugger you use on VSCode |
+| File                    | Configurations                                                                                                           |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `.vscode/settings.json` | `clangd.path` (via `scripts/clangd`), `clangd.arguments`, and `cortex-debug.*.osx` (macOS-only; Linux/Windows unchanged) |
+| `.vscode/launch.json`   | Debugger settings; the `osx` block is used only on macOS and does not change Linux or Windows                            |
+| `.vscode/tasks.json`    | The top-level `osx` PATH applies only to macOS tasks                                                                     |
 
 > [!NOTE]
 > If you change the microcontroller, you'll have to replace the `.svd` file. You can find it on the page of your microcontroller: [example](https://www.st.com/en/microcontrollers-microprocessors/stm32g474rc.html#cad-resources).
