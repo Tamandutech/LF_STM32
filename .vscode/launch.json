@@ -17,6 +17,11 @@
                 "target/stm32g4x.cfg"
             ],
             "showDevDebugOutput": "none",
+            // Applied only on macOS. Linux/Windows keep gdbPath "gdb" above.
+            "osx": {
+                "gdbPath": "/opt/homebrew/bin/arm-none-eabi-gdb",
+                "serverpath": "/opt/homebrew/bin/openocd"
+            }
         },
 
         

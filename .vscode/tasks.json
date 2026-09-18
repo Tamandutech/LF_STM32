@@ -1,5 +1,12 @@
 {
     "version": "2.0.0",
+    "osx": {
+        "options": {
+            "env": {
+                "PATH": "/opt/homebrew/bin:/opt/homebrew/sbin:/opt/homebrew/opt/llvm/bin:${env:PATH}"
+            }
+        }
+    },
     "tasks": [
         {
             "label": "Clean",

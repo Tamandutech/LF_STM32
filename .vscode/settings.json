@@ -98,11 +98,21 @@
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true,
     // Set here the path for clangd:
-    "clangd.path": "/usr/bin/clangd",
+    // Linux/WSL keep /usr/bin/clangd. The wrapper is used so macOS can
+    // resolve Homebrew LLVM without replacing the Linux path.
+    "clangd.path": "${workspaceFolder}/scripts/clangd",
     "clangd.detectExtensionConflicts": true,
     "clangd.enableCodeCompletion": true,
     "clangd.arguments": [
         // Set here the path of your compiler:
-        "--query-driver=/usr/bin/arm-none-eabi-gcc,/usr/bin/arm-none-eabi-g++"
-    ]
+        // Unused globs are ignored; Linux still queries /usr/bin/arm-none-eabi-gcc.
+        "--query-driver=/usr/bin/arm-none-eabi-gcc,/usr/bin/arm-none-eabi-g++,/opt/homebrew/bin/arm-none-eabi-gcc,/opt/homebrew/bin/arm-none-eabi-g++,/usr/local/bin/arm-none-eabi-gcc,/usr/local/bin/arm-none-eabi-g++,/Applications/ArmGNUToolchain/*/arm-none-eabi/bin/arm-none-eabi-gcc,/Applications/ArmGNUToolchain/*/arm-none-eabi/bin/arm-none-eabi-g++"
+    ],
+    // *.osx keys are read only on macOS. Linux/Windows keep launch.json "gdb".
+    "cortex-debug.gdbPath.osx": "/opt/homebrew/bin/arm-none-eabi-gdb",
+    "cortex-debug.openocdPath.osx": "/opt/homebrew/bin/openocd",
+    "cortex-debug.armToolchainPath.osx": "/opt/homebrew/bin",
+    "terminal.integrated.env.osx": {
+        "PATH": "/opt/homebrew/bin:/opt/homebrew/sbin:/opt/homebrew/opt/llvm/bin:${env:PATH}"
+    }
 }
