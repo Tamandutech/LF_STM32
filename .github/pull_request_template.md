@@ -1,8 +1,8 @@
-# Descrição
+# Description
 
-Descreva as alterações feitas.
+_Describe what have been changed._
 
-## 🚨 Impacto das Alterações 🚨
+## Impact of changes
 
-- **Robô:** _Descreva o impacto no robô_
-- **Desenvolvedor:** _Descreva o impacto no desenvolvedor_
+- **Robot:** _Describe the impact on the robot_
+- **Developer:** _Describe the impact on the developer_
