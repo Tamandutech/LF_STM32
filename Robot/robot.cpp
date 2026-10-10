@@ -70,6 +70,12 @@ static void startRunning() {
     return;
   }
 
+  IRSensors::update();
+  if (!IRSensors::isOnLine) {
+    Logger::logSync("Robot is not on line, error was: %d", IRSensors::error);
+    return;
+  }
+
   logger->info("Running...");
 
   // PREPARE
@@ -297,13 +303,13 @@ void setup(void) {
   globalData.action = Action::None;
 
   // Calibrate sensors
-  Timer::delayMiliseconds(75);
-  logger->info("Send 'c' to calibrate sensors...");
-  BLE::resetLastCharacter();
-  while(BLE::lastCharacter != 'c') {
-    Timer::delayMiliseconds(100);
-  }
-  IRSensors::calibrate();
+  // Timer::delayMiliseconds(75);
+  // logger->info("Send 'c' to calibrate sensors...");
+  // BLE::resetLastCharacter();
+  // while(BLE::lastCharacter != 'c') {
+  //   Timer::delayMiliseconds(100);
+  // }
+  // IRSensors::calibrate();
 
   Timer::delayMiliseconds(25);
   logger->info("Waiting for run command...");
@@ -315,12 +321,15 @@ void setup(void) {
 
   // Assign data
   globalData.map = {
-      {0,       MOTOR_BASE_PWM, VACUUM_BASE_PWM, White  },
+      {0, MOTOR_BASE_PWM, VACUUM_BASE_PWM, White},
 
-      {300000,  MOTOR_BASE_PWM, VACUUM_BASE_PWM, Green  },
+      // First curve
+      {50000, MOTOR_BASE_PWM, Blue},
+
+      // {300000, MOTOR_BASE_PWM, VACUUM_BASE_PWM, Green},
 
       // Last point should be the end of the track
-      {1600000, 0,              270,             Magenta},
+      {1610000, 0, 270, Indigo},
   };
   /****************************************************************************/
 }

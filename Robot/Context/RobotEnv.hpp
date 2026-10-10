@@ -42,22 +42,22 @@
 
 
 #define BASE_LOOP_TIME_US 1000  // µs
-#define MAX_OUT_TIME_US   60000 // µs
+#define MAX_OUT_TIME_US   90000 // µs
 // The min time to consider valid a second reading of the right mark
 #define MIN_TRACK_TIME    (2 * 1e6) // µs
 
 
-#define MOTOR_BASE_PWM           275   // ‰
+#define MOTOR_BASE_PWM           150   // ‰
 #define MOTOR_BASE_SPEED         0.75F // m/s
 #define MOTOR_MAX_PWM            1000  // ‰
 #define MOTOR_MAX_SPEED          4     // m/s
 #define MOTOR_MAX_DECELERATION   4     // m/s
 #define MOTOR_MAX_ROTATION_SPEED 4     // m/s
 #define MOTOR_BRAKE_TIME         75    // ms
-#define MOTOR_MAPPING_PWM        300   // ‰
+#define MOTOR_MAPPING_PWM        210   // ‰
 
 
-#define VACUUM_BASE_PWM                    900  // ‰
+#define VACUUM_BASE_PWM                    850  // ‰
 #define VACUUM_MIN_PWM                     100  // ‰
 #define VACUUM_MAX_PWM                     1000 // ‰
 #define VACUUM_INTERVAL_BETWEEN_INCREMENTS 2    // ms

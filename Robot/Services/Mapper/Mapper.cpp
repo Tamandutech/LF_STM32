@@ -64,6 +64,7 @@ void Mapper::map() {
   while(globalData.action == Action::Map) {
     currentTime = Timer::getMicroseconds();
 
+
     if(currentTime - lastTime >= BASE_LOOP_TIME_US) {
       // UPDATE ROBOT STATE
       dt = currentTime - lastTime;
@@ -71,6 +72,16 @@ void Mapper::map() {
       Encoders::update();
       // IMU::update(dt);
       (void)dt;
+
+      if(Encoders::average >= 1700000) {
+        Motors::stop();
+        Vacuum::stopAfter(1000);
+
+        Logger::log("Stopping at end");
+        Timer::delayMiliseconds(50);
+        break;
+      }
+
 
       // SAVE STATE
       currentPoint.timestamp = currentTime;
@@ -129,7 +140,7 @@ void Mapper::map() {
         logger->info("End of the track");
 
         currentPoint.isRightMark = true;
-        mapping.push_back(currentPoint);
+        // mapping.push_back(currentPoint);
 
         Leds::setColorForAll(Black);
         Leds::setColorFor(CenterLed, White);
