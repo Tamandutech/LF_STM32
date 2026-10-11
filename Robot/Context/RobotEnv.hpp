@@ -47,17 +47,24 @@
 #define MIN_TRACK_TIME    (2 * 1e6) // µs
 
 
-#define MOTOR_BASE_PWM           150   // ‰
+/******************************************************************************/
+// SPEED
+#define MOTOR_BASE_PWM           400   // ‰
+#define MOTOR_MAPPING_PWM        400   // ‰
+
+// VACUUM
+#define VACUUM_BASE_PWM                    0  // ‰
+/******************************************************************************/
+
+
 #define MOTOR_BASE_SPEED         0.75F // m/s
 #define MOTOR_MAX_PWM            1000  // ‰
 #define MOTOR_MAX_SPEED          4     // m/s
 #define MOTOR_MAX_DECELERATION   4     // m/s
 #define MOTOR_MAX_ROTATION_SPEED 4     // m/s
 #define MOTOR_BRAKE_TIME         75    // ms
-#define MOTOR_MAPPING_PWM        210   // ‰
 
 
-#define VACUUM_BASE_PWM                    850  // ‰
 #define VACUUM_MIN_PWM                     100  // ‰
 #define VACUUM_MAX_PWM                     1000 // ‰
 #define VACUUM_INTERVAL_BETWEEN_INCREMENTS 2    // ms

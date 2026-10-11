@@ -73,15 +73,6 @@ void Mapper::map() {
       // IMU::update(dt);
       (void)dt;
 
-      if(Encoders::average >= 1700000) {
-        Motors::stop();
-        Vacuum::stopAfter(1000);
-
-        Logger::log("Stopping at end");
-        Timer::delayMiliseconds(50);
-        break;
-      }
-
 
       // SAVE STATE
       currentPoint.timestamp = currentTime;
@@ -102,22 +93,22 @@ void Mapper::map() {
       Motors::pwmOutputFor(Right, MOTOR_MAPPING_PWM - u);
 
       // OUT METHOD
-      if(IRSensors::isOnLine) {
-        // Reset warning
-        outWarning = false;
-      } else if(!IRSensors::isOnLine && !outWarning) {
-        // Register warning, and save time
-        outStartTime = currentTime;
-        outWarning   = true;
-      } else if(outWarning && (lastTime - outStartTime) >= MAX_OUT_TIME_US) {
-        // Stop is out of line for MAX_OUT_TIME_US
-        logger->info("Stopped: out of line for %lu µs",
-                     lastTime - outStartTime); // NOLINT
+      // if(IRSensors::isOnLine) {
+      //   // Reset warning
+      //   outWarning = false;
+      // } else if(!IRSensors::isOnLine && !outWarning) {
+      //   // Register warning, and save time
+      //   outStartTime = currentTime;
+      //   outWarning   = true;
+      // } else if(outWarning && (lastTime - outStartTime) >= MAX_OUT_TIME_US) {
+      //   // Stop is out of line for MAX_OUT_TIME_US
+      //   logger->info("Stopped: out of line for %lu µs",
+      //                lastTime - outStartTime); // NOLINT
 
-        // Comment the 2 following lines to disable out method
-        globalData.action = Action::None;
-        break;
-      }
+      //   // Comment the 2 following lines to disable out method
+      //   globalData.action = Action::None;
+      //   break;
+      // }
 
       // RIGHT MARK
       if(IRSensors::mark[Right] && !previousMark[Right]) {

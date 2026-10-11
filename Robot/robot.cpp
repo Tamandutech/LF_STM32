@@ -31,6 +31,7 @@
 #include "Drivers/Leds/Leds.hpp"
 #include "Drivers/Motors/Motors.hpp"
 #include "Drivers/Vacuum/Vacuum.hpp"
+#include <cstdint>
 
 /*
  * Here we declare private (aka static) variables to this file, but they are
@@ -65,22 +66,22 @@ static void startRunning() {
   bool previousMark[2] = {false};
 
   // ASSERT MAP SIZE
-  if(globalData.map.size() < 3) {
-    logger->error("Map is too small: %d points", globalData.map.size());
-    return;
-  }
+  // if(globalData.map.size() < 3) {
+  //   logger->error("Map is too small: %d points", globalData.map.size());
+  //   return;
+  // }
 
   IRSensors::update();
-  if (!IRSensors::isOnLine) {
-    Logger::logSync("Robot is not on line, error was: %d", IRSensors::error);
-    return;
+  if(!IRSensors::isOnLine) {
+    logger->warning("Robot is out of line...");
+    // return;
   }
 
   logger->info("Running...");
 
   // PREPARE
   Leds::setColorForAll(Magenta);
-  Vacuum::pwmAcceleratedOutput(VACUUM_BASE_PWM);
+  Vacuum::pwmOutput(VACUUM_BASE_PWM);
   Encoders::reset();
   startTime = currentTime = lastTime = Timer::getMicroseconds();
 
@@ -119,47 +120,47 @@ static void startRunning() {
       }
 
       // OUT METHOD
-      if(IRSensors::isOnLine) {
-        // Reset warning
-        outWarning = false;
-      } else if(!IRSensors::isOnLine && !outWarning) {
-        // Register warning, and save time
-        outStartTime = currentTime;
-        outWarning   = true;
-      } else if(outWarning && (lastTime - outStartTime) >= MAX_OUT_TIME_US) {
-        // Stop is out of line for MAX_OUT_TIME_US
-        logger->info("Stopped: out of line for %lu µs",
-                     lastTime - outStartTime); // NOLINT
+      // if(IRSensors::isOnLine) {
+      //   // Reset warning
+      //   outWarning = false;
+      // } else if(!IRSensors::isOnLine && !outWarning) {
+      //   // Register warning, and save time
+      //   outStartTime = currentTime;
+      //   outWarning   = true;
+      // } else if(outWarning && (lastTime - outStartTime) >= MAX_OUT_TIME_US) {
+      //   // Stop is out of line for MAX_OUT_TIME_US
+      //   logger->info("Stopped: out of line for %lu µs",
+      //                lastTime - outStartTime); // NOLINT
 
-        // Comment the 2 following lines to disable out method
-        globalData.action = Action::None;
-        break;
-      }
+      //   // Comment the 2 following lines to disable out method
+      //   globalData.action = Action::None;
+      //   break;
+      // }
 
       // RIGHT MARK
-      if(IRSensors::mark[Right] && !previousMark[Right]) {
-        // Start of the track
-        logger->info("Start of the track");
-        previousMark[Right] = true;
+      // if(IRSensors::mark[Right] && !previousMark[Right]) {
+      //   // Start of the track
+      //   logger->info("Start of the track");
+      //   previousMark[Right] = true;
 
-        // Uncoment the folowing if you want to set encoder to 0 at the start
-        // Encoders::reset();
+      //   // Uncoment the folowing if you want to set encoder to 0 at the start
+      //   // Encoders::reset();
 
-        Leds::setColorForAll(Green);
-        Leds::setColorFor(CenterLed, White);
-        Leds::setColorFor(MainBoardLed, White);
-      } else if(IRSensors::mark[Right] && previousMark[Right] &&
-                (currentTime - startTime) > MIN_TRACK_TIME) {
-        // End of the track
-        logger->info("End of the track");
+      //   Leds::setColorForAll(Green);
+      //   Leds::setColorFor(CenterLed, White);
+      //   Leds::setColorFor(MainBoardLed, White);
+      // } else if(IRSensors::mark[Right] && previousMark[Right] &&
+      //           (currentTime - startTime) > MIN_TRACK_TIME) {
+      //   // End of the track
+      //   logger->info("End of the track");
 
-        Leds::setColorForAll(Black);
-        Leds::setColorFor(CenterLed, White);
-        Leds::setColorFor(MainBoardLed, White);
+      //   Leds::setColorForAll(Black);
+      //   Leds::setColorFor(CenterLed, White);
+      //   Leds::setColorFor(MainBoardLed, White);
 
-        // Uncoment the following line to stop the robot if out of line
-        // break;
-      }
+      //   // Uncoment the following line to stop the robot if out of line
+      //   break;
+      // }
 
       lastTime = Timer::getMicroseconds();
     }
@@ -329,7 +330,7 @@ void setup(void) {
       // {300000, MOTOR_BASE_PWM, VACUUM_BASE_PWM, Green},
 
       // Last point should be the end of the track
-      {1610000, 0, 270, Indigo},
+      {2600000, 0, MOTOR_BASE_PWM, Magenta},
   };
   /****************************************************************************/
 }
@@ -338,9 +339,11 @@ void loop(void) {
   switch(globalData.action) {
   case Action::Run: startRunning(); break;
 
-  case Action::Map: Mapper::map(); break;
+  case Action::Map:
+    Mapper::map();
+    break;
 
-  case Action::Menu: menu(); break;
+    // case Action::Menu: menu(); break;
 
   case Action::None:
   default: stopRunning();
