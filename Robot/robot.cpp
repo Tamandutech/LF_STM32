@@ -71,7 +71,7 @@ static void startRunning() {
   }
 
   IRSensors::update();
-  if (!IRSensors::isOnLine) {
+  if(!IRSensors::isOnLine) {
     Logger::logSync("Robot is not on line, error was: %d", IRSensors::error);
     return;
   }
@@ -81,6 +81,8 @@ static void startRunning() {
   // PREPARE
   Leds::setColorForAll(Magenta);
   Vacuum::pwmAcceleratedOutput(VACUUM_BASE_PWM);
+  IRSensors::update();
+  PID::reset(IRSensors::error);
   Encoders::reset();
   startTime = currentTime = lastTime = Timer::getMicroseconds();
 
@@ -101,8 +103,6 @@ static void startRunning() {
         // At index i-1
         Motors::pwmOutputFor(Left, globalData.map[i - 1].baseMotorPWM + u);
         Motors::pwmOutputFor(Right, globalData.map[i - 1].baseMotorPWM - u);
-        Vacuum::pwmOutput(globalData.map[i - 1].baseVacuumPWM);
-        Leds::setColorForAll(globalData.map[i - 1].colorIndex);
       } else if(Encoders::average >= globalData.map[i].encoderAverage) {
         // At index i
         Motors::pwmOutputFor(Left, globalData.map[i].baseMotorPWM + u);
@@ -321,15 +321,20 @@ void setup(void) {
 
   // Assign data
   globalData.map = {
-      {0, MOTOR_BASE_PWM, VACUUM_BASE_PWM, White},
+      {0, 165, VACUUM_BASE_PWM, White},
 
       // First curve
-      {50000, MOTOR_BASE_PWM, Blue},
+      {50000, MOTOR_BASE_PWM, VACUUM_BASE_PWM, Blue},
 
+      {200000, 270, VACUUM_BASE_PWM, Green},
+
+      {400000, 270, VACUUM_BASE_PWM, White},
+
+      {500000, 270, VACUUM_BASE_PWM, Red},
       // {300000, MOTOR_BASE_PWM, VACUUM_BASE_PWM, Green},
 
       // Last point should be the end of the track
-      {1610000, 0, 270, Indigo},
+      {840000, 0, 270, Indigo},
   };
   /****************************************************************************/
 }

@@ -12,6 +12,7 @@
 
 class PID {
 public:
+  static void  reset(const int16_t irSensorError);
   static float evaluate(const int16_t irSensorError);
 
 private:

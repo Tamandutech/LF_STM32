@@ -8,9 +8,10 @@
 #include "../../Services/PID/PID.hpp"
 
 #include "../../Context/RobotEnv.hpp"
-#include "../../Drivers/IRSensors/IRSensors.hpp"
 
 float PID::lastError = 0;
+
+void PID::reset(const int16_t irSensorError) { lastError = irSensorError; }
 
 float PID::evaluate(const int16_t irSensorError) {
   float P   = irSensorError;
