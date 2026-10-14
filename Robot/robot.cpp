@@ -145,17 +145,17 @@ static void startRunning() {
         // Uncoment the folowing if you want to set encoder to 0 at the start
         // Encoders::reset();
 
-        Leds::setColorForAll(Green);
-        Leds::setColorFor(CenterLed, White);
-        Leds::setColorFor(MainBoardLed, White);
+        // Leds::setColorForAll(Green);
+        // Leds::setColorFor(CenterLed, White);
+        // Leds::setColorFor(MainBoardLed, White);
       } else if(IRSensors::mark[Right] && previousMark[Right] &&
                 (currentTime - startTime) > MIN_TRACK_TIME) {
         // End of the track
-        logger->info("End of the track");
+        // logger->info("End of the track");
 
-        Leds::setColorForAll(Black);
-        Leds::setColorFor(CenterLed, White);
-        Leds::setColorFor(MainBoardLed, White);
+        // Leds::setColorForAll(Black);
+        // Leds::setColorFor(CenterLed, White);
+        // Leds::setColorFor(MainBoardLed, White);
 
         // Uncoment the following line to stop the robot if out of line
         // break;
@@ -321,20 +321,39 @@ void setup(void) {
 
   // Assign data
   globalData.map = {
-      {0, 165, VACUUM_BASE_PWM, White},
+      {0,      175, VACUUM_BASE_PWM, Green },
 
-      // First curve
-      {50000, MOTOR_BASE_PWM, VACUUM_BASE_PWM, Blue},
+      // Pós primeira curva
+      // 50000
+      {45000,  195, VACUUM_BASE_PWM, Blue  },
 
-      {200000, 270, VACUUM_BASE_PWM, Green},
+      // Início da reta
+      {145000, 350, VACUUM_BASE_PWM, Orange},
+      // {150000, 215, VACUUM_BASE_PWM, Blue   },
+      // {250000, 215, VACUUM_BASE_PWM, Blue   },
+      // {300000, 215, VACUUM_BASE_PWM, Red   },
 
-      {400000, 270, VACUUM_BASE_PWM, White},
+      // Final da reta
+      {165000, 270, VACUUM_BASE_PWM, Blue  },
+      {350000, 270, VACUUM_BASE_PWM, Green },
 
-      {500000, 270, VACUUM_BASE_PWM, Red},
+      // Reta da grade
+      {455000, 435, VACUUM_BASE_PWM, Blue  },
+
+      // Caracol
+      {505000, 270, VACUUM_BASE_PWM, Red   },
+
+      // Reta da diagonal
+      {635000, 270, VACUUM_BASE_PWM, Green },
+
+      // Final da reta diagonal
+      {670000, 270, VACUUM_BASE_PWM, Indigo},
+      {700000, 270, VACUUM_BASE_PWM, Orange},
+
       // {300000, MOTOR_BASE_PWM, VACUUM_BASE_PWM, Green},
 
       // Last point should be the end of the track
-      {840000, 0, 270, Indigo},
+      {840000, 0,   270,             Indigo},
   };
   /****************************************************************************/
 }

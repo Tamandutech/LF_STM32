@@ -73,16 +73,6 @@ void Mapper::map() {
       // IMU::update(dt);
       (void)dt;
 
-      if(Encoders::average >= 1600000) {
-        Motors::stop();
-        Vacuum::stopAfter(1000);
-
-        Logger::log("Stopping at end");
-        Timer::delayMiliseconds(50);
-        break;
-      }
-
-
       // SAVE STATE
       currentPoint.timestamp = currentTime;
 
